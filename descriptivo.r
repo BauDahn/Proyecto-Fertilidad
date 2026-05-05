@@ -28,9 +28,17 @@ fertility_df$Alcohol_Intake <- factor(fertility_df$Alcohol_Intake, levels=nivele
 tipos_tratamiento <- c("None", "Medication", "IVF")
 fertility_df$Treatment_Type <- factor(fertility_df$Treatment_Type, levels=tipos_tratamiento, ordered = FALSE)
 
+# Sacar Couple_ID del dataset
+fertility_df$Couple_ID <- NULL
+
 # Summary del dataset corregido
 View(fertility_df)
 str(fertility_df)
 
+fertility_df$Pregnancy_Outcome <- fertility_df$Pregnancy_Outcome == "Success"
+
 library(repmod)
+library(performance)
+modelo_prueba <-glm(Pregnancy_Outcome ~ . - c("Couple_ID"), data=fertility_df, family="binomial")
+report(modelo_prueba)
 
