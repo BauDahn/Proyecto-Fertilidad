@@ -37,8 +37,26 @@ str(fertility_df)
 
 fertility_df$Pregnancy_Outcome <- fertility_df$Pregnancy_Outcome == "Success"
 
+# Matriz de correlación para ver si hay que sacar variables
+library(corrplot)
+
+M <- cor(as.matrix(fertility_df[,sapply(fertility_df, is.numeric)]))
+corrplot(M, method='number')
+# No vemos ninguna correlación clara en las variables numéricas
+
+fertility_df <- nice_names(fertility_df)
+
+names(fertility_df)
+
 library(repmod)
 library(performance)
-modelo_prueba <-glm(Pregnancy_Outcome ~ . - c("Couple_ID"), data=fertility_df, family="binomial")
+modelo_prueba <- glm(pregnancy_outcome ~ ., data=fertility_df, family="binomial")
 report(modelo_prueba)
 
+library(visreg)
+visreg(modelo_prueba)
+
+
+
+pred <- fitted(modelo_prueba)
+AUC(pred, fertility_df$Pregnancy_Outcome)
