@@ -49,7 +49,7 @@ colnames(fertility_df)
 
 library(repmod)
 library(performance)
-modelo_completo <- glm(Pregnancy_Outcome ~ ., data=fertility_df, family="binomial")
+modelo_completo <- glm(pregnancy_outcome ~ ., data=fertility_df, family="binomial")
 report(modelo_completo)
 visreg(modelo_completo)
 
@@ -69,8 +69,14 @@ visreg(hipotesis5, "Alcohol_Intake", by="Sperm_Count_Million_per_ml")
 
 modelo_prueba <- glm(Pregnancy_Outcome ~ Treatment_Type + PCOS + Motility_percentage * Sperm_Count_Million_per_ml + Stress_Level * Female_Age + Smoking * Motility_percentage, data=fertility_df, family="binomial")
 
+# VIF del modelo final
+library(car)
+vif(modelo_prueba)
 report(modelo_prueba, digits=6)
 
+
+# Validación del modelo
+# AUC
 library(boot)
 cv_resultado <- cv.glm(fertility_df, modelo_prueba, K = 10)
 library(pROC)
@@ -78,10 +84,10 @@ pred <- fitted(modelo_prueba)
 auc_val <- auc(fertility_df$Pregnancy_Outcome, pred)
 print(auc_val)
 
+# Matriz de Confusión
 
-modelo_gam <- gam(Pregnancy_Outcome ~ s())
 
-cdplot(fertility_df$Pregnancy_Outcome ~ fertility_df$Motility_percentage)
+
 
 
 
