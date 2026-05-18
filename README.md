@@ -76,11 +76,6 @@ Proyecto-Fertilidad/
 ├── descriptivo.r                  # Script principal: preprocesamiento, modelo y validación
 ├── Fertility_Health_Dataset_2026.csv
 ├── plots/                         # Gráficos generados
-├── herramientas_ia/
-│   ├── notebooklm_mcp.py          # Servidor MCP para integración con NotebookLM
-│   └── run_analysis.r             # Script auxiliar de análisis
-├── .mcp.json                      # Configuración MCP (Claude Code)
-└── .claude/                       # Configuración de Claude Code
 ```
 
 ## Dependencias de R
