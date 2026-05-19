@@ -6,7 +6,7 @@ View(fertility_df)
 str(fertility_df)
 
 # Distribución de las clases
-plot(fertility_df$Pregnancy_Outcome)
+plot(fertility_df$pregnancy_outcome)
 
 # Female_Age y Male_Age están puestas como double, las pasare a int
 fertility_df$Female_Age <- as.integer(fertility_df$Female_Age)
@@ -36,12 +36,19 @@ fertility_df <- fertility_df[, -which(names(fertility_df) == "Couple_ID")]
 
 fertility_df$Pregnancy_Outcome <- factor(fertility_df$Pregnancy_Outcome)
 
+# Distribución de las clases
+png("plots/distribucion_clases.png", width = 500, height = 400)
+plot(fertility_df$Pregnancy_Outcome)
+dev.off()
+
 # Matriz de correlación para ver si hay que sacar variables
 library(corrplot)
 
+png("plots/correlacion.png", width = 500, height = 400)
 M <- cor(as.matrix(fertility_df[,sapply(fertility_df, is.numeric)]))
 corrplot(M, method='number')
 # No vemos ninguna correlación clara en las variables numéricas
+dev.off()
 
 library(clickR)
 fertility_df <- nice_names(fertility_df)
@@ -73,25 +80,30 @@ visreg(hipotesis3, "smoking", by="motility_percentage")
 visreg(hipotesis4, "trying_duration_months", by="treatment_type")
 visreg(hipotesis5, "alcohol_intake", by="sperm_count_million_per_ml")
 
-modelo_prueba <- glm(pregnancy_outcome ~ treatment_type + pcos +
-                       motility_percentage * sperm_count_million_per_ml + 
-                       stress_level * female_age + smoking * motility_percentage,
-                     data=fertility_df, family="binomial")
+modelo_prueba <- glm(pregnancy_outcome ~ treatment_type + pcos + motility_percentage * sperm_count_million_per_ml + stress_level * female_age + smoking * motility_percentage, data=fertility_df, family="binomial")
 
 # VIF del modelo final
 library(car)
-vif(modelo_prueba)
+vif(modelo_prueba, type = "predictor")
 report(modelo_prueba, digits=6)
 
 
 # Validación del modelo
-# AUC
+# AUC y curva ROC
 library(boot)
-cv_resultado <- cv.glm(fertility_df, modelo_prueba, K = 10)
 library(pROC)
-pred <- fitted(modelo_prueba)
-auc_val <- auc(fertility_df$pregnancy_outcome, pred)
-print(auc_val)
+
+fertility_dfmod <- as.data.frame(fertility_df)  #readcsv nos esta devolviendo un tibble, y para que la función cv_model funcione necesita un data.frame tradicional.
+auc_val <- AUC(predict(modelo_prueba), fertility_df$pregnancy_outcome)
+AUCs_validacion <- cv_model(pregnancy_outcome ~ treatment_type + pcos + motility_percentage * sperm_count_million_per_ml + stress_level * female_age + smoking * motility_percentage, data = fertility_dfmod, fit_function = "glm", family = binomial(), k = 10)
+media_AUCs <- mean(AUCs_validacion)
+auc_val
+media_AUCs
+
+png("plots/curva_ROC.png", width = 500, height = 400)
+roc_obj <- roc(fertility_df$pregnancy_outcome, fitted(modelo_prueba))
+plot(roc_obj, main = paste0("ROC — AUC CV = ", round(media_AUCs, 3)))
+dev.off()
 
 
 # BSS
