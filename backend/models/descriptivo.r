@@ -6,7 +6,7 @@ View(fertility_df)
 str(fertility_df)
 
 # Distribución de las clases
-plot(fertility_df$pregnancy_outcome)
+plot(fertility_df$Pregnancy_Outcome)
 
 # Female_Age y Male_Age están puestas como double, las pasare a int
 fertility_df$Female_Age <- as.integer(fertility_df$Female_Age)
@@ -73,7 +73,10 @@ visreg(hipotesis3, "smoking", by="motility_percentage")
 visreg(hipotesis4, "trying_duration_months", by="treatment_type")
 visreg(hipotesis5, "alcohol_intake", by="sperm_count_million_per_ml")
 
-modelo_prueba <- glm(pregnancy_outcome ~ treatment_type + pcos + motility_percentage * sperm_count_million_per_ml + stress_level * female_age + smoking * motility_percentage, data=fertility_df, family="binomial")
+modelo_prueba <- glm(pregnancy_outcome ~ treatment_type + pcos +
+                       motility_percentage * sperm_count_million_per_ml + 
+                       stress_level * female_age + smoking * motility_percentage,
+                     data=fertility_df, family="binomial")
 
 # VIF del modelo final
 library(car)
@@ -112,3 +115,12 @@ obs <- ifelse(fertility_df$pregnancy_outcome == "Success", 1, 0)
 predicciones <- fitted(modelo_prueba)
 
 brier_skill_score(pred = predicciones, real = obs)
+
+
+coeficientes = coef(modelo_prueba)
+modelo_json <- list(
+  intercepto = as.numeric(coeficientes["(Intercept)"]),
+  betas = as.list(coeficientes[names(coeficientes) != "(Intercept)"])
+)
+library(jsonlite)
+write_json(modelo_json, "coeficientes.json", auto_unbox = TRUE, pretty = TRUE)
