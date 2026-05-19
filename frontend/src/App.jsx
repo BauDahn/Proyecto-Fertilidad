@@ -76,10 +76,6 @@ function App() {
             </h3>
             
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
-              <div style={{ padding: '16px', backgroundColor: '#f0fdf4', borderRadius: '12px', flex: 1, border: '1px solid #dcfce7' }}>
-                <span style={{ fontSize: '11px', color: '#15803d', fontWeight: '800', display: 'block', letterSpacing: '0.5px', marginBottom: '4px' }}>PRONÓSTICO</span>
-                <strong style={{ fontSize: '24px', color: '#166534', fontWeight: '800' }}>{resultado.prediccion}</strong>
-              </div>
               
               <div style={{ padding: '16px', backgroundColor: '#f8fafc', borderRadius: '12px', flex: 1, border: '1px solid #e2e8f0' }}>
                 <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '800', display: 'block', letterSpacing: '0.5px', marginBottom: '4px' }}>PROBABILIDAD</span>

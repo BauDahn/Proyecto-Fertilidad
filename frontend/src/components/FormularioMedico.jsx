@@ -5,9 +5,9 @@ const FormularioMedico = ({ onEnviar }) => {
     treatment_type: 'Natural',
     pcos: false,
     motility_percentage: 30.0,
-    sperm_count_million_per_ml: 20.0, // Asegúrate de que coincida con el nombre exacto de tu backend
+    sperm_count_millon_per_ml: 20.0, // Asegúrate de que coincida con el nombre exacto de tu backend
     stress_level: 'Low',
-    edad_femenino: 30, // Asegúrate de que coincida con tu backend
+    female_age: 30, // Asegúrate de que coincida con tu backend
     smoking: false,
   });
 
@@ -89,7 +89,7 @@ const FormularioMedico = ({ onEnviar }) => {
 
           <div>
             <label style={labelEstilo}>Edad de la Mujer</label>
-            <input type="number" name="edad_femenino" value={formData.edad_femenino} onChange={handleChange} style={inputEstilo} />
+            <input type="number" name="female_age" value={formData.female_age} onChange={handleChange} style={inputEstilo} />
           </div>
 
           <div>
@@ -99,7 +99,7 @@ const FormularioMedico = ({ onEnviar }) => {
 
           <div style={{ gridColumn: 'span 1' }}>
             <label style={labelEstilo}>Conteo Espermático (M/ml)</label>
-            <input type="number" step="0.1" name="sperm_count_million_per_ml" value={formData.sperm_count_millon_per_ml} onChange={handleChange} style={inputEstilo} />
+            <input type="number" step="0.1" name="sperm_count_millon_per_ml" value={formData.sperm_count_millon_per_ml} onChange={handleChange} style={inputEstilo} />
           </div>
 
         </div>

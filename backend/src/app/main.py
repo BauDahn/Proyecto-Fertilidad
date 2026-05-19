@@ -14,14 +14,14 @@ def predict(datos):
     
     x_age = datos.female_age
     x_motility = datos.motility_percentage
-    x_sperm = datos.sperm_count_million_per_ml
+    x_sperm = datos.sperm_count_millon_per_ml
 
     z = MODELO["intercepto"]
     z += MODELO["betas"]["treatment_typeMedication"] * x_medication
     z += MODELO["betas"]["treatment_typeIVF"] * x_ivf
     z += MODELO["betas"]["pcosYes"] * x_pcos
     z += MODELO["betas"]["motility_percentage"] * x_motility
-    z += MODELO["betas"]["sperm_count_million_per_ml"] * x_sperm
+    z += MODELO["betas"]["sperm_count_millon_per_ml"] * x_sperm
     z += MODELO["betas"]["stress_levelMedium"] * x_stress_med
     z += MODELO["betas"]["stress_levelHigh"] * x_stress_high
     z += MODELO["betas"]["female_age"] * x_age
@@ -29,7 +29,7 @@ def predict(datos):
 
     # 4. Sumamos las INTERACCIONES (Multiplicaciones)
     # Motilidad x Conteo espermático
-    z += MODELO["betas"]["motility_percentage:sperm_count_million_per_ml"] * (x_motility * x_sperm)
+    z += MODELO["betas"]["motility_percentage:sperm_count_millon_per_ml"] * (x_motility * x_sperm)
     
     # Estrés Medio x Edad
     z += MODELO["betas"]["stress_levelMedium:female_age"] * (x_stress_med * x_age)
@@ -41,6 +41,5 @@ def predict(datos):
     z += MODELO["betas"]["motility_percentage:smokingYes"] * (x_motility * x_smoking)
     
     probabilidad = 1 / (1 + math.exp(-z))
-    riesgo = "Alto" if probabilidad > 0.5 else "Bajo"
     
-    return {"riesgo": riesgo, "probabilidad": round(probabilidad, 4)}
+    return {"probabilidad": round(probabilidad, 4)}

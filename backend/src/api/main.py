@@ -17,7 +17,7 @@ class Muestra(BaseModel):
     treatment_type: Literal["Natural", "Medication", "IVF"]
     pcos: bool
     motility_percentage: float
-    sperm_count_million_per_ml: float
+    sperm_count_millon_per_ml: float
     stress_level: Literal["Low", "Medium", "High"]
     female_age: int
     smoking: bool

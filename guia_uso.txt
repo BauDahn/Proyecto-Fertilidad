@@ -1,0 +1,10 @@
+Pequeña guia de uso:
+Abrí dos terminales
+En una hace cd backend
+en backend hace: source .venv/bin/activate  --> Necesitas tener librerias
+Ahora hace export PYTHONPATH=$PYTHONPATH:.
+Depués hace fastapi dev src/api/main.py
+
+Pasa a la otra terminal y hace cd frontend
+despues hace npm run dev
+Entra en el enlace ^_^
