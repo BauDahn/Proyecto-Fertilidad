@@ -1,4 +1,4 @@
-const API_URL = "http://127.0.0.1:8000"; // La URL por defecto de FastAPI
+const API_URL = "https://dkg5bcnx-8000.uks1.devtunnels.ms/";
 
 export const predict = async (datosPaciente) => {
   try {
