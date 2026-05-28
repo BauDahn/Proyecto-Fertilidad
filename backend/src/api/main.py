@@ -7,7 +7,7 @@ from src.app.main import predict
 app = FastAPI()
 
 origins = [
-    "https://dkg5bcnx-5173.uks1.devtunnels.ms/", 
+    "https://dkg5bcnx-5173.uks1.devtunnels.ms", 
     "http://localhost:5173",
 ]
 

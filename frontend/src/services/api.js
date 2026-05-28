@@ -1,4 +1,4 @@
-const API_URL = "https://dkg5bcnx-8000.uks1.devtunnels.ms/";
+const API_URL = "https://dkg5bcnx-8000.uks1.devtunnels.ms";
 
 export const predict = async (datosPaciente) => {
   try {
